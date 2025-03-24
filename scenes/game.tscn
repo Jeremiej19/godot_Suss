@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgo5stsonobsx"]
+
+[ext_resource type="PackedScene" uid="uid://dq3exp1yol0e5" path="res://scenes/player.tscn" id="1_uwrxv"]
+[ext_resource type="PackedScene" uid="uid://ptqyk5nh3f15" path="res://scenes/enemy.tscn" id="2_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://b6pojb0uegpms" path="res://scenes/box.tscn" id="3_lnu2h"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Lvl1" type="Node2D" parent="."]
+
+[node name="Player" parent="Lvl1" instance=ExtResource("1_uwrxv")]
+slide_on_ceiling = false
+floor_stop_on_slope = false
+floor_block_on_wall = false
+
+[node name="Camera2D" type="Camera2D" parent="Lvl1"]
+
+[node name="Enemy" parent="Lvl1" instance=ExtResource("2_yqjtg")]
+position = Vector2(296, 80)
+slide_on_ceiling = false
+floor_stop_on_slope = false
+floor_block_on_wall = false
+
+[node name="RigidBody2D" parent="Lvl1" instance=ExtResource("3_lnu2h")]
+position = Vector2(218, -76)
+linear_damp = 20.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+visible = false
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(3, 2)
+scale = Vector2(1, 1.01068)
+build_mode = 1
+polygon = PackedVector2Array(574, -323, 577, 323, -577, 322, -575, -322)
