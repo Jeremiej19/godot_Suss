@@ -1,24 +1,47 @@
 extends CharacterBody2D
 
+enum ACTION {DEFAULT, ATTACK}
 
 const SPEED = 500.0
 const JUMP_VELOCITY = -400.0
 const DECAY = 0.1
 const push_force = 80
+var state = ACTION.DEFAULT
+
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 
 func update_animation(directionH, directionV):
+	
 	if directionH > 0:
 		animated_sprite.flip_h = false
 	elif directionH < 0:
 		animated_sprite.flip_h = true
+		
 	
+	if state == ACTION.ATTACK:
+		return
+		
 	if directionH == 0 and directionV == 0:
 		animated_sprite.play("idle")
 	else:
 		animated_sprite.play("run")
-
-
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+		
+func handle_input(directionH, directionV):
+	var attack = Input.is_action_just_pressed("atack_right")
+	if attack:
+		state = ACTION.ATTACK
+		animated_sprite.play("atack")
+		
+	if directionH:
+		velocity.x = directionH * SPEED
+	else:
+		velocity.x -= velocity.x * DECAY
+	
+	if directionV:
+		velocity.y = directionV * SPEED
+	else:
+		velocity.y -= velocity.y * DECAY
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -34,22 +57,7 @@ func _physics_process(delta: float) -> void:
 	var directionH:= Input.get_axis("move_left", "move_right")
 	var directionV := Input.get_axis("move_up", "move_down")
 
-	
-	if directionH:
-		velocity.x = directionH * SPEED
-	else:
-		velocity.x -= velocity.x * DECAY
-	
-	if directionV:
-		velocity.y = directionV * SPEED
-	else:
-		velocity.y -= velocity.y * DECAY
-		
-	var attack = Input.get_action_strength("atack_right")
-	
-	if attack:
-		animated_sprite.play("atack")
-
+	handle_input(directionH, directionV)
 	update_animation(directionH, directionV)
 	move_and_slide()
 	
@@ -57,3 +65,8 @@ func _physics_process(delta: float) -> void:
 		var c = get_slide_collision(i)
 		if c.get_collider() is RigidBody2D:
 			c.get_collider().apply_central_impulse(-c.get_normal() * push_force)
+
+func _on_animated_sprite_2d_animation_looped():
+	state = ACTION.DEFAULT
+	
+	

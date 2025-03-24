@@ -90,7 +90,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"atack",
-"speed": 10.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -146,8 +146,4 @@ shape = SubResource("RectangleShape2D_g2els")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fjrip")
-animation = &"atack"
-frame = 4
-frame_progress = 0.202629
-
-[connection signal="animation_looped" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_looped"]
+animation = &"idle"
