@@ -1,10 +1,13 @@
 extends CharacterBody2D
 
-
 const SPEED = 500.0
 const JUMP_VELOCITY = -400.0
 const DECAY = 0.1
 const push_force = 80
+var attacking = false
+
+@onready var animation_tree: AnimationTree = $AnimationTree
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func update_animation(directionH, directionV):
 	if directionH > 0:
@@ -12,13 +15,14 @@ func update_animation(directionH, directionV):
 	elif directionH < 0:
 		animated_sprite.flip_h = true
 	
+
+	if attacking == true:
+		return
 	if directionH == 0 and directionV == 0:
-		animated_sprite.play("idle")
+		animation_tree.get("parameters/playback").travel("Idle")
 	else:
-		animated_sprite.play("run")
+		animation_tree.get("parameters/playback").travel("Run")
 
-
-@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -45,11 +49,11 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity.y -= velocity.y * DECAY
 		
-	var attack = Input.get_action_strength("atack_right")
-	
+	var attack = Input.is_action_just_pressed("atack_right")
 	if attack:
-		animated_sprite.play("atack")
-
+		animation_tree.get("parameters/playback").travel("Attack")
+		attacking = true
+		
 	update_animation(directionH, directionV)
 	move_and_slide()
 	
