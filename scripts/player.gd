@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-const SPEED = 500.0
+const SPEED = 200.0
 const JUMP_VELOCITY = -400.0
 const DECAY = 0.1
 const push_force = 80
@@ -15,7 +15,7 @@ func update_animation(directionH, directionV):
 	elif directionH < 0:
 		animated_sprite.flip_h = true
 	
-
+	
 	if attacking == true:
 		return
 	if directionH == 0 and directionV == 0:
@@ -61,3 +61,8 @@ func _physics_process(delta: float) -> void:
 		var c = get_slide_collision(i)
 		if c.get_collider() is RigidBody2D:
 			c.get_collider().apply_central_impulse(-c.get_normal() * push_force)
+
+
+func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
+	if "attack" in anim_name:
+		attacking = false
