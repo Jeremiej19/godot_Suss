@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://dq3exp1yol0e5"]
+[gd_scene load_steps=66 format=3 uid="uid://dq3exp1yol0e5"]
 
 [ext_resource type="Texture2D" uid="uid://bvsguubs73mbi" path="res://icon.svg" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://cpmcsxb685g1v" path="res://scripts/player.gd" id="1_g2els"]
@@ -229,7 +229,7 @@ animations = [{
 animation = &"attack"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_dqkch"]
-animation = &"attack"
+animation = &"attack_left"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_tuyoq"]
 animation = &"attack"
@@ -413,18 +413,6 @@ tracks/2/keys = {
 "update": 1,
 "values": [true, false, true]
 }
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("AttackArea/AttackLeft:disabled")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.4),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [true, false, true]
-}
 
 [sub_resource type="Animation" id="Animation_smehm"]
 resource_name = "attack_down"
@@ -461,6 +449,46 @@ tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.281001, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
+[sub_resource type="Animation" id="Animation_ur7pv"]
+resource_name = "attack_left"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"atack"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AttackArea/AttackLeft:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
 "values": [true, false, true]
@@ -569,22 +597,23 @@ _data = {
 &"RESET": SubResource("Animation_qlg0r"),
 &"attack": SubResource("Animation_qhqgy"),
 &"attack_down": SubResource("Animation_smehm"),
+&"attack_left": SubResource("Animation_ur7pv"),
 &"attack_up": SubResource("Animation_fjrip"),
 &"idle": SubResource("Animation_dqkch"),
 &"run": SubResource("Animation_tuyoq")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhqgy"]
-size = Vector2(47, 114.5)
+size = Vector2(57, 114.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dqkch"]
-size = Vector2(46.5, 115)
+size = Vector2(57, 115)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qlg0r"]
-size = Vector2(21.5, 140)
+size = Vector2(35, 140)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tuyoq"]
-size = Vector2(139.5, 21)
+size = Vector2(35, 140)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
 motion_mode = 1
@@ -602,7 +631,7 @@ shape = SubResource("RectangleShape2D_g2els")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fjrip")
-animation = &"atack"
+animation = &"idle"
 autoplay = "idle"
 frame = 1
 
@@ -625,7 +654,7 @@ script = ExtResource("4_dqkch")
 metadata/_custom_type_script = "uid://ckywxits1o3mi"
 
 [node name="AttackRight" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(74.5, -16)
+position = Vector2(79.5, -16)
 shape = SubResource("RectangleShape2D_qhqgy")
 disabled = true
 
@@ -635,12 +664,13 @@ shape = SubResource("RectangleShape2D_dqkch")
 disabled = true
 
 [node name="AttackDown" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(1, 54)
+position = Vector2(1, 61)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_qlg0r")
 disabled = true
 
 [node name="AttackUp" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(1, -56)
+position = Vector2(1, -69)
+rotation = 1.5708
 shape = SubResource("RectangleShape2D_tuyoq")
 disabled = true

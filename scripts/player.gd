@@ -35,15 +35,15 @@ func update_animation(directionH, directionV):
 		#attacking = false
 		
 func attack_handler() -> void:
-	if Input.is_action_just_pressed("attack_right"):
+	if Input.is_action_pressed("attack_right"):
 		perform_attack(Vector2(1, 0))
 		animated_sprite.flip_h = false
-	elif Input.is_action_just_pressed("attack_left"):
-		perform_attack(Vector2(1, 0))
+	elif Input.is_action_pressed("attack_left"):
+		perform_attack(Vector2(-1, 0))
 		animated_sprite.flip_h = true
-	elif Input.is_action_just_pressed("attack_up"):
+	elif Input.is_action_pressed("attack_up"):
 		perform_attack(Vector2(0, 1))
-	elif Input.is_action_just_pressed("attack_down"):
+	elif Input.is_action_pressed("attack_down"):
 		perform_attack(Vector2(0, -1))
 
 func perform_attack(anim_vector: Vector2) -> void:
