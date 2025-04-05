@@ -1,7 +1,8 @@
 class_name MyHitBox
 extends Area2D
 
-var damage := 10
+const DAMAGE := 50
+const KNOCKBACK := 100
 
 func _init() -> void:
 	collision_layer = 2
