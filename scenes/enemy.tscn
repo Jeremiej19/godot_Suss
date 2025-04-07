@@ -4,11 +4,11 @@
 [ext_resource type="Script" uid="uid://60jytgobpkny" path="res://scripts/enemy.gd" id="1_md0e3"]
 [ext_resource type="Script" uid="uid://cunvdare5fcf2" path="res://scripts/EnemyHurtBox.gd" id="3_4ra3w"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5uy6h"]
-size = Vector2(109.499, 107.79)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_md0e3"]
 size = Vector2(64.2934, 65.0323)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5uy6h"]
+size = Vector2(109.499, 107.79)
 
 [node name="Enemy" type="CharacterBody2D"]
 motion_mode = 1
@@ -17,14 +17,6 @@ script = ExtResource("1_md0e3")
 [node name="Icon" type="Sprite2D" parent="."]
 scale = Vector2(0.584478, 0.575195)
 texture = ExtResource("1_7p1mj")
-
-[node name="EnemyHurtBox" type="Area2D" parent="Icon"]
-script = ExtResource("3_4ra3w")
-metadata/_custom_type_script = "uid://cunvdare5fcf2"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Icon/EnemyHurtBox"]
-position = Vector2(-1.71094, -1.73854)
-shape = SubResource("RectangleShape2D_5uy6h")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.500001, -0.5)
@@ -37,3 +29,14 @@ offset_top = -70.0
 offset_right = 106.0
 offset_bottom = -43.0
 value = 100.0
+
+[node name="EnemyHurtBox" type="Area2D" parent="."]
+scale = Vector2(0.584478, 0.575195)
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("3_4ra3w")
+metadata/_custom_type_script = "uid://cunvdare5fcf2"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnemyHurtBox"]
+position = Vector2(-1.71094, -1.73854)
+shape = SubResource("RectangleShape2D_5uy6h")
