@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dgo5stsonobsx"]
+[gd_scene load_steps=5 format=3 uid="uid://dgo5stsonobsx"]
 
 [ext_resource type="PackedScene" uid="uid://dq3exp1yol0e5" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://ptqyk5nh3f15" path="res://scenes/enemy.tscn" id="2_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://b6pojb0uegpms" path="res://scenes/box.tscn" id="3_lnu2h"]
+[ext_resource type="Script" uid="uid://c1l83ehkp057l" path="res://scenes/enemy_spawner.gd" id="4_lbhrr"]
 
 [node name="Game" type="Node2D"]
 
@@ -15,15 +16,25 @@ floor_block_on_wall = false
 
 [node name="Camera2D" type="Camera2D" parent="Lvl1"]
 
-[node name="Enemy" parent="Lvl1" instance=ExtResource("2_yqjtg")]
+[node name="Enemy" parent="Lvl1" node_paths=PackedStringArray("player") instance=ExtResource("2_yqjtg")]
 position = Vector2(296, 80)
 slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
+player = NodePath("../Player")
 
 [node name="RigidBody2D" parent="Lvl1" instance=ExtResource("3_lnu2h")]
 position = Vector2(218, -76)
 linear_damp = 20.0
+
+[node name="EnemySpawner" type="Node" parent="Lvl1" node_paths=PackedStringArray("spawn_position")]
+script = ExtResource("4_lbhrr")
+enemy_scene = ExtResource("2_yqjtg")
+spawn_position = NodePath("Marker2D")
+max_enemies = 1
+
+[node name="Marker2D" type="Marker2D" parent="Lvl1/EnemySpawner"]
+position = Vector2(341, -230)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 visible = false
