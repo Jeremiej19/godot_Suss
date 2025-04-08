@@ -146,7 +146,7 @@ floor_block_on_wall = false
 
 [node name="Camera2D" type="Camera2D" parent="Lvl1"]
 
-[node name="Enemy" parent="Lvl1" node_paths=PackedStringArray("player") instance=ExtResource("2_yqjtg")]
+[node name="Enemy" parent="Lvl1" node_paths=PackedStringArray("player") groups=["enemy"] instance=ExtResource("2_yqjtg")]
 position = Vector2(296, 80)
 slide_on_ceiling = false
 floor_stop_on_slope = false
