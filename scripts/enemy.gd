@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 signal death(enemy: Enemy)
 
-@export var player: Player
+@export var player: CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
