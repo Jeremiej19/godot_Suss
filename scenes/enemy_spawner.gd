@@ -53,4 +53,4 @@ func _on_enemy_died(enemy):
 	current_enemy_count -= 1
 	enemies_in_scene.erase(enemy)
 	# Optional: Spawn immediately on death
-	_spawn_enemy()
+	#_spawn_enemy()

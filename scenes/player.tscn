@@ -763,6 +763,7 @@ size = Vector2(35, 140)
 size = Vector2(35, 140)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+z_index = 1
 motion_mode = 1
 script = ExtResource("1_g2els")
 

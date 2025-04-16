@@ -2,6 +2,7 @@ class_name Warrior
 extends CharacterBody2D
 
 const SPEED = 350.0
+const LOG_SPEED_MODIFIER = 0.8
 const JUMP_VELOCITY = -400.0
 const DECAY = 0.1
 const push_force = 80
@@ -13,6 +14,7 @@ const KNOCKBACK := 100
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var state_machine := animation_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
+@onready var backpack = $Backpack
 
 func update_animation(directionH, directionV):		
 	if attack_initiated:
@@ -42,43 +44,44 @@ func perform_attack(anim_vector: Vector2) -> void:
 	attack_initiated = true
 	animation_tree.set("parameters/Attack/BlendSpace2D/blend_position", anim_vector)
 	state_machine.travel("Attack")
+	
+func pickup_handler() -> void:
+	if Input.is_action_just_pressed("pickup"):
+		print("pick")
+		backpack.add_tree()
+	elif Input.is_action_just_pressed("drop"):
+		print("drop")
+		backpack.remove_tree()
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	#if not is_on_floor():
-		#velocity += get_gravity() * delta
-
-	# Handle jump.
-	#if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		#velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
 	var directionH:= Input.get_axis("move_left", "move_right")
 	var directionV := Input.get_axis("move_up", "move_down")
-
+	
+	var speed = calculate_speed()
 	
 	if directionH:
-		velocity.x = directionH * SPEED
+		velocity.x = directionH * speed
 	else:
 		velocity.x -= velocity.x * DECAY
 	
 	if directionV:
-		velocity.y = directionV * SPEED
+		velocity.y = directionV * speed
 	else:
 		velocity.y -= velocity.y * DECAY
 		
 	attack_handler()
-
 	update_animation(directionH, directionV)
-	
 	move_and_slide()
+	pickup_handler()
 	
 	for i in get_slide_collision_count():
 		var c = get_slide_collision(i)
 		if c.get_collider() is RigidBody2D:
 			c.get_collider().apply_central_impulse(-c.get_normal() * push_force)
 
+func calculate_speed():
+	var tree_count = backpack.get_tree_count()
+	return SPEED * LOG_SPEED_MODIFIER ** tree_count
 
 func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 	if "attack" in anim_name:

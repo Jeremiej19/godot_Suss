@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://dgo5stsonobsx"]
+[gd_scene load_steps=20 format=4 uid="uid://dgo5stsonobsx"]
 
 [ext_resource type="Texture2D" uid="uid://drqlas7tgprmj" path="res://assets/custom/flipped.png" id="1_gee14"]
 [ext_resource type="PackedScene" uid="uid://dq3exp1yol0e5" path="res://scenes/player.tscn" id="1_uwrxv"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://bnwayp0roiopy" path="res://assets/Tiny Swords (Update 010)/Factions/Knights/Buildings/Castle/Castle_Construction.png" id="4_0tnpc"]
 [ext_resource type="Script" uid="uid://c1l83ehkp057l" path="res://scenes/enemy_spawner.gd" id="4_lbhrr"]
 [ext_resource type="Texture2D" uid="uid://csg2qe2cbrmlu" path="res://assets/Tiny Swords (Update 010)/Terrain/Ground/Tilemap_Flat.png" id="5_iywne"]
+[ext_resource type="PackedScene" uid="uid://d4k2fgoumkij7" path="res://scenes/backpack.tscn" id="6_vtaks"]
+[ext_resource type="Script" uid="uid://d3wmw51unl2h3" path="res://scripts/backpack.gd" id="7_kvpfn"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vtaks"]
 texture = ExtResource("1_gee14")
@@ -138,13 +140,13 @@ texture_region_size = Vector2i(64, 64)
 0:2/0 = 0
 1:2/0 = 0
 2:2/0 = 0
-2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:2/0/physics_layer_0/polygon_0/points = PackedVector2Array(-24.8369, -32, 22.0145, -32, 20.8855, 32, -25.4013, 32)
 3:2/0 = 0
 4:2/0 = 0
 0:3/0 = 0
 1:3/0 = 0
 2:3/0 = 0
-2:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, -32, 32, -32, 32, 32, -32, 32)
+2:3/0/physics_layer_0/polygon_0/points = PackedVector2Array(-24.8369, -32, 22.0145, -32, 20.8855, 32, -25.4013, 32)
 3:3/0 = 0
 4:3/0 = 0
 
@@ -172,10 +174,13 @@ tile_set = SubResource("TileSet_0tnpc")
 position = Vector2(-165, 39)
 
 [node name="Player" parent="Lvl1" instance=ExtResource("1_uwrxv")]
-position = Vector2(907, -327)
+position = Vector2(953, -389)
 slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
+
+[node name="Backpack" parent="Lvl1/Player" instance=ExtResource("6_vtaks")]
+script = ExtResource("7_kvpfn")
 
 [node name="Camera2D" type="Camera2D" parent="Lvl1/Player" node_paths=PackedStringArray("tilemap")]
 visible = false
@@ -187,6 +192,7 @@ script = ExtResource("3_p57ef")
 tilemap = NodePath("../../../TileMapLayer")
 
 [node name="Enemy" parent="Lvl1" node_paths=PackedStringArray("player") groups=["enemy"] instance=ExtResource("2_yqjtg")]
+visible = false
 position = Vector2(-179, -313)
 slide_on_ceiling = false
 floor_stop_on_slope = false
@@ -194,14 +200,15 @@ floor_block_on_wall = false
 player = NodePath("../Player")
 
 [node name="RigidBody2D" parent="Lvl1" instance=ExtResource("3_lnu2h")]
+visible = false
 position = Vector2(613, 201)
 linear_damp = 20.0
 
 [node name="EnemySpawner" type="Node" parent="Lvl1" node_paths=PackedStringArray("spawn_position")]
 script = ExtResource("4_lbhrr")
 enemy_scene = ExtResource("2_yqjtg")
+spawn_interval = 1.0
 spawn_position = NodePath("Marker2D")
-max_enemies = 0
 
 [node name="Marker2D" type="Marker2D" parent="Lvl1/EnemySpawner"]
 position = Vector2(-375, 288)
@@ -211,6 +218,5 @@ visible = false
 physics_material_override = SubResource("PhysicsMaterial_0tnpc")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-visible = false
 build_mode = 1
 polygon = PackedVector2Array(-606, -461, -610, 434, 991, 431, 991, -460)
