@@ -14,6 +14,9 @@ const KNOCKBACK := 100
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var state_machine := animation_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
 
+func _ready() -> void:
+	z_index = 1 
+
 func update_animation(directionH, directionV):		
 	if attack_initiated:
 		return

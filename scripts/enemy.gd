@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 signal death(enemy: Enemy)
 
-@export var player: CharacterBody2D
+var player: CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
@@ -17,6 +17,9 @@ var knockback_timer = 0
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var health_bar: ProgressBar = $HealthBar
+
+func _ready() -> void:
+	player = get_node_or_null("/root/Game/Player")
 
 func _physics_process(delta: float) -> void:
 	if !knockback && knockback_timer==0:

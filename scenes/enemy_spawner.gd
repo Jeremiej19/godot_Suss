@@ -19,7 +19,7 @@ func _ready():
 		set_process(false)
 
 	# Find the Player node in the scene
-	player_node = get_node_or_null("/root/Game/Lvl1/Player") # Adjust the path if your Player is in a different location
+	player_node = get_node_or_null("/root/Game/Player") # Adjust the path if your Player is in a different location
 	if not player_node:
 		printerr("Error: Player node not found in the scene!")
 		set_process(false)
