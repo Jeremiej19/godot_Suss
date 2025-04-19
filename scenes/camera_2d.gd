@@ -7,4 +7,4 @@ func _ready() -> void:
 	var tileSize = tilemap.tile_set.tile_size
 	var worldSizeInPixels = mapRect.size * tileSize
 	limit_right = worldSizeInPixels.x + limit_left
-	limit_bottom = worldSizeInPixels.y + limit_top - tileSize[0]
+	limit_bottom = worldSizeInPixels.y + limit_top

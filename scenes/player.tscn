@@ -782,6 +782,7 @@ shape = SubResource("CapsuleShape2D_dqkch")
 sprite_frames = SubResource("SpriteFrames_fjrip")
 animation = &"run_left"
 autoplay = "idle"
+frame = 1
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationNodeStateMachine_a8ls1")
