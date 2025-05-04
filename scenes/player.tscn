@@ -796,9 +796,9 @@ libraries = {
 &"": SubResource("AnimationLibrary_tuyoq")
 }
 
-[node name="AttackArea" type="Area2D" parent="."]
+[node name="AttackArea" type="Area2D" parent="." groups=["PlayerAttack"]]
 position = Vector2(1, 1)
-collision_layer = 0
+collision_layer = 2
 collision_mask = 2
 script = ExtResource("4_dqkch")
 metadata/_custom_type_script = "uid://ckywxits1o3mi"
