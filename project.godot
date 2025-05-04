@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 project/assembly_name="Suss"
 
+[global_group]
+
+TreeAlive="Alive tree area for hit deteaction"
+
 [input]
 
 move_left={

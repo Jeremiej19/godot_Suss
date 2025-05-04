@@ -1,8 +1,9 @@
 # Backpack.gd - Attach this to your Backpack node
 extends Node2D
+class_name Backpack
 
 # Preload your tree scene
-var TreeScene = preload("res://scenes/tree.tscn")
+var Log = preload("res://scenes/log.tscn")
 
 # Store the trees currently in the backpack
 var trees = []
@@ -17,7 +18,7 @@ func add_tree():
 		return false
 	
 	# Instance a new tree
-	var new_tree = TreeScene.instantiate()
+	var new_tree = Log.instantiate()
 	
 	# Calculate position - each new tree appears 16px above the last one
 	var y_position = trees.size() * TREE_VERTICAL_OFFSET * -1

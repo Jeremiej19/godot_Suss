@@ -8,6 +8,7 @@ const DECAY = 0.1
 const push_force = 80
 var attack_initiated = false
 const DAMAGE := 50
+const CHOP_DAMAGE := 50
 const KNOCKBACK := 100
 
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -91,3 +92,13 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 func _on_attack_area_body_entered(body: Node2D) -> void:
 	if body.has_method("take_damage"):
 		body.take_damage(DAMAGE, KNOCKBACK)
+
+
+func _on_attack_area_area_entered(area: Area2D) -> void:
+	print("entered")
+	if area.is_in_group("TreeAliveHitbox"):
+		print("entered")
+		var treeNode2D = area.get_parent()
+		if treeNode2D.has_method("take_chop_damage"):
+			treeNode2D.take_chop_damage(CHOP_DAMAGE)
+		
