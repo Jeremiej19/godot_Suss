@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=4 uid="uid://dgo5stsonobsx"]
+[gd_scene load_steps=29 format=4 uid="uid://dgo5stsonobsx"]
 
 [ext_resource type="Texture2D" uid="uid://drqlas7tgprmj" path="res://assets/custom/flipped.png" id="1_gee14"]
 [ext_resource type="PackedScene" uid="uid://dq3exp1yol0e5" path="res://scenes/player.tscn" id="1_uwrxv"]
@@ -12,10 +12,8 @@
 [ext_resource type="Texture2D" uid="uid://csg2qe2cbrmlu" path="res://assets/Tiny Swords (Update 010)/Terrain/Ground/Tilemap_Flat.png" id="5_iywne"]
 [ext_resource type="Texture2D" uid="uid://001q2dj0uqpl" path="res://assets/custom/flipped_2_clear.png" id="6_kvuet"]
 [ext_resource type="PackedScene" uid="uid://d4k2fgoumkij7" path="res://scenes/backpack.tscn" id="6_vtaks"]
+[ext_resource type="Script" uid="uid://2jpt7epkx1jj" path="res://scenes/lvl_1.gd" id="7_ca42v"]
 [ext_resource type="Script" uid="uid://d3wmw51unl2h3" path="res://scripts/backpack.gd" id="7_kvpfn"]
-[ext_resource type="Script" uid="uid://cwe8gphh8r26c" path="res://scenes/tree_alive.gd" id="14_trtic"]
-[ext_resource type="Texture2D" uid="uid://btq4aqbccnvxr" path="res://assets/trees/Surplus Trees.png" id="15_ir15t"]
-[ext_resource type="Texture2D" uid="uid://cu6fxqsm5yqks" path="res://texture/particles.tres" id="16_ca42v"]
 [ext_resource type="Script" uid="uid://bk8skf4qerb70" path="res://scenes/tree_manager.gd" id="17_rysoc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vtaks"]
@@ -322,6 +320,8 @@ tile_set = SubResource("TileSet_0tnpc")
 
 [node name="Lvl1" type="Node2D" parent="."]
 position = Vector2(-165, 39)
+script = ExtResource("7_ca42v")
+metadata/_custom_type_script = "uid://2jpt7epkx1jj"
 
 [node name="Player" parent="Lvl1" instance=ExtResource("1_uwrxv")]
 position = Vector2(953, -389)
@@ -363,48 +363,14 @@ spawn_position = NodePath("Marker2D")
 [node name="Marker2D" type="Marker2D" parent="Lvl1/EnemySpawner"]
 position = Vector2(-375, 288)
 
-[node name="TreeAlive" type="Node2D" parent="Lvl1" groups=["TreeAlive"]]
-position = Vector2(1435, -511)
-script = ExtResource("14_trtic")
-metadata/_custom_type_script = "uid://cwe8gphh8r26c"
-
-[node name="Sprite2D" type="Sprite2D" parent="Lvl1/TreeAlive"]
-z_index = 2
-scale = Vector2(2, 2)
-texture = ExtResource("15_ir15t")
-region_enabled = true
-region_rect = Rect2(0, 0, 75, 150)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Lvl1/TreeAlive"]
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Lvl1/TreeAlive/StaticBody2D"]
-polygon = PackedVector2Array(5, 133, 2, 120, 1, 106, 1, 93, 1, 77, 10, 77, 10, 88, 13, 105, 15, 121, 20, 138, 10, 138)
-
-[node name="Area2D" type="Area2D" parent="Lvl1/TreeAlive" groups=["TreeAliveHitbox"]]
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Lvl1/TreeAlive/Area2D"]
-polygon = PackedVector2Array(2, 139, 0, 76, 12, 76, 20, 139)
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="Lvl1/TreeAlive"]
-emitting = false
-texture = ExtResource("16_ca42v")
-lifetime = 0.52
-one_shot = true
-emission_shape = 1
-emission_sphere_radius = 89.67
-initial_velocity_min = 39.22
-initial_velocity_max = 39.22
-
 [node name="TreeManager" type="Node2D" parent="Lvl1"]
 script = ExtResource("17_rysoc")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+visible = false
 physics_material_override = SubResource("PhysicsMaterial_0tnpc")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+visible = false
 build_mode = 1
 polygon = PackedVector2Array(-608, -1094, 4246, -1091, 4253, 1062, -611, 1072)
-
-[connection signal="area_entered" from="Lvl1/TreeAlive/Area2D" to="Lvl1/TreeAlive" method="_on_area_2d_area_entered"]

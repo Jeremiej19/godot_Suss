@@ -11,30 +11,29 @@ const MAX_TREES = 16
 const TREE_VERTICAL_OFFSET = 16  # pixels between trees
 
 # Add a new tree to the backpack
-func add_tree():
+func add_log(log: Log):
 	# Check if we've reached the maximum number of trees
 	if trees.size() >= MAX_TREES:
 		print("Backpack is full!")
 		return false
 	
-	# Instance a new tree
-	var new_tree = Log.instantiate()
+	log.reparent(self)
+	log.disable_pickup_range()
 	
 	# Calculate position - each new tree appears 16px above the last one
 	var y_position = trees.size() * TREE_VERTICAL_OFFSET * -1
 	
 	# Set the position
-	new_tree.position = Vector2(0, y_position)
+	log.position = Vector2(0, y_position)
 	
 	# Add the tree to the backpack and the trees array
-	add_child(new_tree)
-	trees.append(new_tree)
+	trees.append(log)
 	
 	print("Added tree. Total: ", trees.size())
 	return true
 
 # Remove the most recently added tree
-func remove_tree():
+func pop_log():
 	# Check if there are trees to remove
 	if trees.size() <= 0:
 		print("No trees to remove!")
@@ -42,10 +41,9 @@ func remove_tree():
 	
 	# Remove last tree from array and scene
 	var tree_to_remove = trees.pop_back()
-	tree_to_remove.queue_free()
 	
 	print("Removed tree. Total: ", trees.size())
-	return true
+	return tree_to_remove
 
 # Get the current number of trees
 func get_tree_count():

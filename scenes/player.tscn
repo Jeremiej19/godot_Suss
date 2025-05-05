@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=3 uid="uid://dq3exp1yol0e5"]
+[gd_scene load_steps=83 format=3 uid="uid://dq3exp1yol0e5"]
 
 [ext_resource type="Texture2D" uid="uid://bvsguubs73mbi" path="res://icon.svg" id="1_3vyb7"]
 [ext_resource type="Script" uid="uid://cpmcsxb685g1v" path="res://scripts/warrior.gd" id="1_g2els"]
@@ -762,6 +762,10 @@ size = Vector2(35, 140)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tuyoq"]
 size = Vector2(35, 140)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qlg0r"]
+radius = 39.0
+height = 98.0
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 z_index = 1
 motion_mode = 1
@@ -824,6 +828,14 @@ rotation = 1.5708
 shape = SubResource("RectangleShape2D_tuyoq")
 disabled = true
 
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_qlg0r")
+
 [connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="area_entered" from="AttackArea" to="." method="_on_attack_area_area_entered"]
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

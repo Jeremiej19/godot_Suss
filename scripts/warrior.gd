@@ -17,6 +17,8 @@ const KNOCKBACK := 100
 @onready var state_machine := animation_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
 @onready var backpack = $Backpack
 
+var nerbyLogs = []
+
 func update_animation(directionH, directionV):		
 	if attack_initiated:
 		return
@@ -48,11 +50,21 @@ func perform_attack(anim_vector: Vector2) -> void:
 	
 func pickup_handler() -> void:
 	if Input.is_action_just_pressed("pickup"):
-		print("pick")
-		backpack.add_tree()
+		if nerbyLogs.size() > 0:
+			var closest_log = nerbyLogs.pop_front()
+			var logAdded = backpack.add_log(closest_log)
+			if !logAdded:
+				nerbyLogs.append(closest_log)
+		
 	elif Input.is_action_just_pressed("drop"):
 		print("drop")
-		backpack.remove_tree()
+		var log: Log = backpack.pop_log()
+		if log:
+			log.reparent(self.get_parent())
+			log.position = self.position
+			log.enable_pickup_range()
+		
+			
 
 func _physics_process(delta: float) -> void:
 	var directionH:= Input.get_axis("move_left", "move_right")
@@ -95,10 +107,16 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 
 
 func _on_attack_area_area_entered(area: Area2D) -> void:
-	print("entered")
 	if area.is_in_group("TreeAliveHitbox"):
-		print("entered")
 		var treeNode2D = area.get_parent()
 		if treeNode2D.has_method("take_chop_damage"):
 			treeNode2D.take_chop_damage(CHOP_DAMAGE)
 		
+
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if area.is_in_group("Log"):
+		nerbyLogs.append(area.get_parent())
+
+func _on_hitbox_area_exited(area: Area2D) -> void:
+	if area.is_in_group("Log"):
+		nerbyLogs.remove_at(nerbyLogs.find(area.get_parent()))
