@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://xmmtjhl8xg8b"]
 
-[ext_resource type="Script" uid="uid://cwe8gphh8r26c" path="res://scenes/tree_alive.gd" id="1_16vh3"]
+[ext_resource type="Script" uid="uid://cwe8gphh8r26c" path="res://scripts/tree_alive.gd" id="1_16vh3"]
 [ext_resource type="Texture2D" uid="uid://btq4aqbccnvxr" path="res://assets/trees/Surplus Trees.png" id="2_hxi6y"]
 [ext_resource type="Texture2D" uid="uid://cu6fxqsm5yqks" path="res://texture/particles.tres" id="3_0kumu"]
 
