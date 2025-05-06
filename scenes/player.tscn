@@ -354,6 +354,7 @@ node_connections = [&"output", 0, &"BlendSpace2D"]
 animation = &"idle"
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_tuyoq"]
+graph_offset = Vector2(176.086, 40.2314)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_qlg0r")
 nodes/Animation/position = Vector2(404, 210)
 nodes/output/position = Vector2(880, 180)
@@ -415,7 +416,7 @@ states/Run/node = SubResource("AnimationNodeBlendTree_smehm")
 states/Run/position = Vector2(610, 260)
 states/Start/position = Vector2(301, 50)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ur7pv"), "Idle", "Run", SubResource("AnimationNodeStateMachineTransition_y4r1p"), "Run", "Idle", SubResource("AnimationNodeStateMachineTransition_d2wvv"), "Run", "Attack", SubResource("AnimationNodeStateMachineTransition_3v2ag"), "Attack", "Run", SubResource("AnimationNodeStateMachineTransition_jej6c"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_f1ej7"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_oprun")]
-graph_offset = Vector2(313.199, 6.95293)
+graph_offset = Vector2(97.9371, 6.95293)
 
 [sub_resource type="Animation" id="Animation_qlg0r"]
 length = 0.001
@@ -713,6 +714,7 @@ tracks/1/keys = {
 [sub_resource type="Animation" id="Animation_jc3p3"]
 resource_name = "run_left"
 length = 0.5
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
