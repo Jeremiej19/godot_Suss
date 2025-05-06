@@ -8,7 +8,7 @@ extends Node
 var current_enemy_count: int = 0
 var spawn_timer: float = 0.0
 var enemies_in_scene: Array = []
-var player_node: Player # Declare a variable to hold the player
+var player_node: CharacterBody2D # Declare a variable to hold the player
 
 func _ready():
 	if not enemy_scene:
@@ -53,4 +53,4 @@ func _on_enemy_died(enemy):
 	current_enemy_count -= 1
 	enemies_in_scene.erase(enemy)
 	# Optional: Spawn immediately on death
-	_spawn_enemy()
+	#_spawn_enemy()
