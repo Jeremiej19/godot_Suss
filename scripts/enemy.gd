@@ -30,12 +30,12 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
-
 func take_damage(amount: int, knockback_amount: int) -> void:
 	current_health -= amount
-	knocback_velocity = ((player.global_position - self.global_position).normalized() * -1) * knockback_amount
-	knockback = true
-	knockback_timer = 10
+	if knockback_amount > 0:
+		knocback_velocity = ((player.global_position - self.global_position).normalized() * -1) * knockback_amount
+		knockback = true
+		knockback_timer = 10
 	print("hit: ", amount, " Current Health: ", current_health)
 	
 	if is_instance_valid(health_bar):

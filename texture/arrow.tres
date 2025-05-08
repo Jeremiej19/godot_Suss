@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://dgg1agjelxftt"]
+
+[ext_resource type="Texture2D" uid="uid://1yy0xcotm1h6" path="res://assets/Tiny Swords (Update 010)/Factions/Knights/Troops/Archer/Arrow/Arrow.png" id="1_aqxw6"]
+
+[resource]
+atlas = ExtResource("1_aqxw6")
+region = Rect2(0, 28, 0, 15)
