@@ -14,6 +14,9 @@ var attack_initiated = false
 var nerbyLogs = []
 var active_player = true
 
+@export var max_hp: int = 20
+var current_hp: int
+
 var crosshair_texture = load("res://assets/cursors/crosshair.png")
 
 @onready var animation_tree: AnimationTree = $AnimationTree
@@ -22,6 +25,12 @@ var crosshair_texture = load("res://assets/cursors/crosshair.png")
 @onready var camera: PlayerCamera = $Camera2D
 @onready var state_machine := animation_tree.get("parameters/playback") as AnimationNodeStateMachinePlayback
 @onready var backpack = $Backpack
+@onready var wall_placer: WallPlacer = $WallPlacer
+
+signal move(position: Vector2)
+
+func _ready():
+	current_hp = max_hp
 
 func update_animation(directionH, directionV):		
 	if attack_initiated:
@@ -61,12 +70,25 @@ func pickup_handler() -> void:
 				nerbyLogs.append(closest_log)
 		
 	elif Input.is_action_just_pressed("drop"):
-		print("drop")
 		var log: Log = backpack.pop_log()
 		if log:
 			log.reparent(self.get_parent())
 			log.position = self.position
 			log.enable_pickup_range()
+
+func builder_handler() -> void:
+	if Input.is_action_just_pressed("pickup"):
+		wall_placer.place()
+	elif Input.is_action_just_pressed("drop"):
+		wall_placer.disable_builder()
+
+func action_handler() -> void:
+	if Input.is_action_just_pressed("build_mode"):
+		wall_placer.enable_builder()
+	if wall_placer.is_enabled():
+		builder_handler()
+	else:
+		pickup_handler()
 
 func _physics_process(delta: float) -> void:
 	if not active_player: return
@@ -89,12 +111,26 @@ func _physics_process(delta: float) -> void:
 	attack_handler()
 	update_animation(directionH, directionV)
 	move_and_slide()
-	pickup_handler()
+	action_handler()
+	move.emit(self.global_position)
 	
 	for i in get_slide_collision_count():
 		var c = get_slide_collision(i)
 		if c.get_collider() is RigidBody2D:
 			c.get_collider().apply_central_impulse(-c.get_normal() * push_force)
+
+func take_damage(amount: int) -> void:
+	current_hp -= amount
+	modulate = Color(1, 0.5, 0.5)  # Tint red
+	await get_tree().create_timer(0.1).timeout
+	modulate = Color(1, 1, 1)  # Reset
+
+	if current_hp <= 0:
+		die()
+
+func die() -> void:
+	queue_free()
+	get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 func calculate_speed():
 	var tree_count = backpack.get_tree_count()
@@ -105,8 +141,8 @@ func _on_animation_tree_animation_finished(anim_name: StringName) -> void:
 		attack_initiated = false
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
-	if body.has_method("take_damage"):
-		body.take_damage(DAMAGE, KNOCKBACK)
+	if body.has_method("take_damage_knockback"):
+		body.take_damage_knockback(DAMAGE, KNOCKBACK)
 
 func _on_attack_area_area_entered(area: Area2D) -> void:
 	if area.is_in_group("TreeAliveHitbox"):

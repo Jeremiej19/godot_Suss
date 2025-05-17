@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://uoblbawqjnd4"]
+
+[ext_resource type="Texture2D" uid="uid://001q2dj0uqpl" path="res://assets/custom/flipped_2_clear.png" id="1_r4uak"]
+[ext_resource type="Script" uid="uid://eqoavgdvyjv6" path="res://scripts/wall_segment.gd" id="1_vc44b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rysoc"]
+size = Vector2(54, 64)
+
+[node name="WallSegment" type="StaticBody2D" groups=["WallSegment"]]
+script = ExtResource("1_vc44b")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1, 0)
+texture = ExtResource("1_r4uak")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_rysoc")

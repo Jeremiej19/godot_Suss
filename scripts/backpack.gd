@@ -14,7 +14,6 @@ const TREE_VERTICAL_OFFSET = 16  # pixels between trees
 func add_log(log: Log):
 	# Check if we've reached the maximum number of trees
 	if trees.size() >= MAX_TREES:
-		print("Backpack is full!")
 		return false
 	
 	log.reparent(self)
@@ -29,21 +28,25 @@ func add_log(log: Log):
 	# Add the tree to the backpack and the trees array
 	trees.append(log)
 	
-	print("Added tree. Total: ", trees.size())
 	return true
 
 # Remove the most recently added tree
 func pop_log():
 	# Check if there are trees to remove
 	if trees.size() <= 0:
-		print("No trees to remove!")
 		return null
 	
 	# Remove last tree from array and scene
 	var tree_to_remove = trees.pop_back()
 	
-	print("Removed tree. Total: ", trees.size())
 	return tree_to_remove
+	
+func spend_logs(number: int) -> bool:
+	if len(trees) < number:
+		return false
+	for i in range(number):
+		trees.pop().free()
+	return true
 
 # Get the current number of trees
 func get_tree_count():
