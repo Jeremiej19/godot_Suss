@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=4 uid="uid://dgo5stsonobsx"]
+[gd_scene load_steps=36 format=4 uid="uid://dgo5stsonobsx"]
 
 [ext_resource type="Texture2D" uid="uid://drqlas7tgprmj" path="res://assets/custom/flipped.png" id="1_gee14"]
 [ext_resource type="PackedScene" uid="uid://dq3exp1yol0e5" path="res://scenes/player.tscn" id="1_uwrxv"]
@@ -21,6 +21,7 @@
 [ext_resource type="Script" uid="uid://0xh8n74vrmfs" path="res://scripts/TowerCamera.gd" id="18_264po"]
 [ext_resource type="PackedScene" uid="uid://uoblbawqjnd4" path="res://scenes/wall_segment.tscn" id="18_ssvqc"]
 [ext_resource type="Script" uid="uid://dpp2fj2448pou" path="res://scripts/wall.gd" id="20_5newe"]
+[ext_resource type="Script" uid="uid://ryj5h2qh3sux" path="res://scripts/spawn_timer.gd" id="20_37s47"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vtaks"]
 texture = ExtResource("1_gee14")
@@ -356,15 +357,21 @@ backpack = NodePath("../Backpack")
 
 [node name="WallSegmentGhost" parent="Lvl1/Player/WallPlacer" instance=ExtResource("13_1kice")]
 
-[node name="EnemySpawner" type="Node" parent="Lvl1" node_paths=PackedStringArray("spawn_position")]
+[node name="EnemySpawner" type="Node" parent="Lvl1" node_paths=PackedStringArray("spawn_position", "spawn_timer")]
 script = ExtResource("4_lbhrr")
 enemy_scene = ExtResource("2_yqjtg")
 spawn_interval = 1.0
-spawn_position = NodePath("Marker2D")
-max_enemies = 1
+spawn_position = NodePath("Position2")
+spawn_timer = NodePath("../SpawnTimer")
 
-[node name="Marker2D" type="Marker2D" parent="Lvl1/EnemySpawner"]
-position = Vector2(-375, 288)
+[node name="Position1" type="Marker2D" parent="Lvl1/EnemySpawner" groups=["Spawn"]]
+position = Vector2(-474, -242)
+
+[node name="Position2" type="Marker2D" parent="Lvl1/EnemySpawner" groups=["Spawn"]]
+position = Vector2(-474, 1)
+
+[node name="Position3" type="Marker2D" parent="Lvl1/EnemySpawner" groups=["Spawn"]]
+position = Vector2(-475, 273)
 
 [node name="TreeManager" type="Node2D" parent="Lvl1"]
 script = ExtResource("17_rysoc")
@@ -385,6 +392,23 @@ offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("17_ssvqc")
 metadata/_custom_type_script = "uid://cffmbry1embpy"
+
+[node name="SpawnTimer" type="Timer" parent="Lvl1"]
+one_shot = true
+autostart = true
+script = ExtResource("20_37s47")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="Lvl1"]
+
+[node name="ProgressBar" type="ProgressBar" parent="Lvl1/CanvasLayer"]
+layout_direction = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -566.5
+offset_right = 566.5
+offset_bottom = 27.0
+grow_horizontal = 2
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 visible = false
@@ -435,3 +459,4 @@ position = Vector2(129, -365)
 position = Vector2(129, -429)
 
 [connection signal="move" from="Lvl1/Player" to="Lvl1/Player/WallPlacer" method="_on_player_move"]
+[connection signal="timeout" from="Lvl1/SpawnTimer" to="Lvl1/EnemySpawner" method="_on_spawn_timer_timeout"]

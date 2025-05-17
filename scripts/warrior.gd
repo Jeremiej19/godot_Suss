@@ -2,7 +2,7 @@ class_name Warrior
 extends CharacterBody2D
 
 const SPEED = 350.0
-const LOG_SPEED_MODIFIER = 0.8
+const LOG_SPEED_MODIFIER = 0.6
 const JUMP_VELOCITY = -400.0
 const DECAY = 0.1
 const push_force = 80
@@ -125,7 +125,7 @@ func take_damage(amount: int) -> void:
 	await get_tree().create_timer(0.1).timeout
 	modulate = Color(1, 1, 1)  # Reset
 
-	if current_hp <= 0:
+	if current_hp == 0:
 		die()
 
 func die() -> void:

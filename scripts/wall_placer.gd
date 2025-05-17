@@ -9,7 +9,7 @@ const WALL_PRICE = 1
 @export var backpack: Backpack
 
 func _ready() -> void:
-	self.visible = true
+	self.visible = false
 
 func enable_builder() -> void:
 	self.visible = true

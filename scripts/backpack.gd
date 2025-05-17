@@ -45,7 +45,7 @@ func spend_logs(number: int) -> bool:
 	if len(trees) < number:
 		return false
 	for i in range(number):
-		trees.pop().free()
+		trees.pop_back().free()
 	return true
 
 # Get the current number of trees
