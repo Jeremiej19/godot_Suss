@@ -13,6 +13,7 @@ const KNOCKBACK := 100
 var attack_initiated = false
 var nerbyLogs = []
 var active_player = true
+var is_dead: bool = false
 
 @export var max_hp: int = 20
 var current_hp: int
@@ -81,6 +82,8 @@ func builder_handler() -> void:
 		wall_placer.place()
 	elif Input.is_action_just_pressed("drop"):
 		wall_placer.disable_builder()
+	elif Input.is_action_just_released("scroll_up") or Input.is_action_just_released("scroll_down") or Input.is_action_just_pressed("next_building"):
+		wall_placer.switch_segment_type()
 
 func action_handler() -> void:
 	if Input.is_action_just_pressed("build_mode"):
@@ -120,15 +123,20 @@ func _physics_process(delta: float) -> void:
 			c.get_collider().apply_central_impulse(-c.get_normal() * push_force)
 
 func take_damage(amount: int) -> void:
+	if is_dead:
+		return
 	current_hp -= amount
 	modulate = Color(1, 0.5, 0.5)  # Tint red
 	await get_tree().create_timer(0.1).timeout
 	modulate = Color(1, 1, 1)  # Reset
 
-	if current_hp == 0:
+	if current_hp <= 0:
 		die()
 
 func die() -> void:
+	if is_dead:
+		return
+	is_dead = true
 	queue_free()
 	get_tree().change_scene_to_file("res://scenes/game.tscn")
 

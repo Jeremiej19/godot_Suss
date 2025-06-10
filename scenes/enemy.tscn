@@ -94,6 +94,8 @@ offset_bottom = -43.0
 value = 100.0
 
 [node name="AttackArea" type="Area2D" parent="."]
+collision_layer = 5
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 position = Vector2(0.5, -0.5)
@@ -110,6 +112,8 @@ scale = Vector2(0.585938, 0.578125)
 sprite_frames = SubResource("SpriteFrames_5uy6h")
 
 [node name="AttackDetector" type="Area2D" parent="."]
+collision_layer = 5
+collision_mask = 5
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackDetector"]
 position = Vector2(1, 0)

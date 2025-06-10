@@ -63,10 +63,8 @@ func take_damage_knockback(amount: int, knockback_amount: int) -> void:
 		knocback_velocity = ((player.global_position - self.global_position).normalized() * -1) * knockback_amount
 		knockback = true
 		knockback_timer = 10
-	print("hit: ", amount, " Current Health: ", current_health)
 	
 	if is_instance_valid(health_bar):
-		print("update")
 		health_bar.value = current_health
 
 	if current_health <= 0:
@@ -75,7 +73,6 @@ func take_damage_knockback(amount: int, knockback_amount: int) -> void:
 
 func _on_attack_detector_body_entered(body: Node2D) -> void:
 	if body.is_in_group("WallSegment") || body.is_in_group("Player"):
-		print("wall")
 		dmg_bodies_count += 1
 		current_state = MobState["ATTACKING"]
 
@@ -83,16 +80,13 @@ func _on_attack_detector_body_exited(body: Node2D) -> void:
 	if body.is_in_group("WallSegment") || body.is_in_group("Player"):
 		dmg_bodies_count -= 1
 		if dmg_bodies_count == 0:
-			print("chase")
 			current_state = MobState["CHASING"]
 			attack_area.disabled = true
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("WallSegment"):
-		print("wall dmg")
 		body.take_damage(20)
 	if body.is_in_group("Player"):
-		print("player dmg")
 		body.take_damage(20)
 
 func _on_anim_frame_changed() -> void:

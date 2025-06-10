@@ -2,7 +2,7 @@ extends Node2D
 class_name Lvl
 
 @onready var treeManager: TreeManager = $TreeManager
-@onready var timer = $SpawnTimer
+@onready var timer = $WaveTimer
 @onready var progress_bar = $CanvasLayer/ProgressBar
 
 # Store the initial wait time

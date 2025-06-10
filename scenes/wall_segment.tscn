@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://eqoavgdvyjv6" path="res://scripts/wall_segment.gd" id="1_vc44b"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rysoc"]
-size = Vector2(54, 64)
+size = Vector2(54, 53)
 
 [node name="WallSegment" type="StaticBody2D" groups=["WallSegment"]]
 script = ExtResource("1_vc44b")
@@ -14,5 +14,5 @@ position = Vector2(1, 0)
 texture = ExtResource("1_r4uak")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(2, 0)
+position = Vector2(2, 0.5)
 shape = SubResource("RectangleShape2D_rysoc")
