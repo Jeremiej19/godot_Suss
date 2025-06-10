@@ -10,13 +10,11 @@ func connect_to_trees():
 	for tree in get_tree().get_nodes_in_group("TreeAlive"):
 		if !tree.chopped.is_connected(_on_tree_chopped):
 			tree.chopped.connect(_on_tree_chopped)
-			print("Connected to tree: ", tree.name)
 
 # Register a new tree (call this when spawning trees dynamically)
 func register_tree(tree):
 	if !tree.chopped.is_connected(_on_tree_chopped):
 		tree.chopped.connect(_on_tree_chopped)
-		print("Registered new tree: ", tree.name)
 
 # Handle tree chopped signal
 func _on_tree_chopped(tree):
@@ -82,4 +80,3 @@ func spawn_tree_at(position: Vector2):
 	
 	# Register the tree to connect signals
 	register_tree(tree_instance)
-	print("Spawned new tree at: ", position)

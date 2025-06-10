@@ -11,7 +11,8 @@ var enemies_in_wave: int = 0
 var enemies_to_spawn: int = 0
 var current_enemy_count: int = 0
 var enemies_in_scene: Array = []
-var player_node: CharacterBody2D
+@onready var player_node: CharacterBody2D
+@export var castle_node: Castle
 var spawn_points: Array = []
 
 func _ready():
@@ -21,6 +22,9 @@ func _ready():
 	player_node = get_node_or_null("/root/Game/Lvl1/Player")
 	if not player_node:
 		printerr("Error: Player node not found!")
+		set_process(false)
+	if not castle_node:
+		printerr("Error: Castle node not found!")
 		set_process(false)
 	spawn_points = get_tree().get_nodes_in_group("Spawn")
 	if spawn_points.is_empty():
@@ -52,6 +56,7 @@ func _spawn_enemy(position: Vector2):
 	var new_enemy = enemy_scene.instantiate()
 	new_enemy.global_position = position
 	new_enemy.player = player_node
+	new_enemy.castle = castle_node
 	add_child(new_enemy)
 	current_enemy_count += 1
 	enemies_in_scene.append(new_enemy)

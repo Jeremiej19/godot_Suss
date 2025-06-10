@@ -10,7 +10,8 @@ enum MobState {
 
 signal death(enemy: Enemy)
 
-@export var player: CharacterBody2D
+var player: CharacterBody2D
+var castle: Castle
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
@@ -32,6 +33,10 @@ var dmg_bodies_count = 0
 func _ready():
 	current_state = MobState["CHASING"]
 	attack_area.disabled = true
+	if player:
+		print(player.global_position)
+	if castle:
+		print(castle.global_position)
 
 func _physics_process(delta: float) -> void:
 	match current_state:
@@ -41,7 +46,7 @@ func _physics_process(delta: float) -> void:
 			MobState.CHASING:
 				animated_sprite.play("default")
 				if !knockback && knockback_timer==0:
-					var direction = (player.global_position - self.global_position).normalized()
+					var direction = (castle.global_position - self.global_position).normalized()
 					velocity = direction*SPEED
 			MobState.ATTACKING:
 				animated_sprite.play("attack")
@@ -72,12 +77,12 @@ func take_damage_knockback(amount: int, knockback_amount: int) -> void:
 
 
 func _on_attack_detector_body_entered(body: Node2D) -> void:
-	if body.is_in_group("WallSegment") || body.is_in_group("Player"):
+	if body.is_in_group("WallSegment") || body.is_in_group("Player") || body.is_in_group("Castle"):
 		dmg_bodies_count += 1
 		current_state = MobState["ATTACKING"]
 
 func _on_attack_detector_body_exited(body: Node2D) -> void:
-	if body.is_in_group("WallSegment") || body.is_in_group("Player"):
+	if body.is_in_group("WallSegment") || body.is_in_group("Player") || body.is_in_group("Castle"):
 		dmg_bodies_count -= 1
 		if dmg_bodies_count == 0:
 			current_state = MobState["CHASING"]
@@ -87,6 +92,8 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("WallSegment"):
 		body.take_damage(20)
 	if body.is_in_group("Player"):
+		body.take_damage(20)
+	if body.is_in_group("Castle"):
 		body.take_damage(20)
 
 func _on_anim_frame_changed() -> void:

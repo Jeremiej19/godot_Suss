@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=4 uid="uid://dgo5stsonobsx"]
+[gd_scene load_steps=35 format=4 uid="uid://dgo5stsonobsx"]
 
 [ext_resource type="Texture2D" uid="uid://drqlas7tgprmj" path="res://assets/custom/flipped.png" id="1_gee14"]
 [ext_resource type="PackedScene" uid="uid://dq3exp1yol0e5" path="res://scenes/player.tscn" id="1_uwrxv"]
@@ -22,6 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://uoblbawqjnd4" path="res://scenes/wall_segment.tscn" id="18_ssvqc"]
 [ext_resource type="Script" uid="uid://dpp2fj2448pou" path="res://scripts/wall.gd" id="20_5newe"]
 [ext_resource type="Script" uid="uid://ryj5h2qh3sux" path="res://scripts/spawn_timer.gd" id="20_37s47"]
+[ext_resource type="PackedScene" uid="uid://cgbgbwi7d1tmf" path="res://scenes/castle.tscn" id="21_e1j6l"]
 [ext_resource type="PackedScene" uid="uid://hfdlkwdmruyn" path="res://scenes/gate_segment.tscn" id="23_bt5mj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vtaks"]
@@ -325,11 +326,12 @@ backpack = NodePath("../Backpack")
 
 [node name="GateSegmentGhost" parent="Lvl1/Player/WallPlacer" instance=ExtResource("13_bt5mj")]
 
-[node name="EnemySpawner" type="Node" parent="Lvl1" node_paths=PackedStringArray("wave_timer", "spawn_enemy_timer")]
+[node name="EnemySpawner" type="Node" parent="Lvl1" node_paths=PackedStringArray("wave_timer", "spawn_enemy_timer", "castle_node")]
 script = ExtResource("4_lbhrr")
 enemy_scene = ExtResource("2_yqjtg")
 wave_timer = NodePath("../WaveTimer")
 spawn_enemy_timer = NodePath("SpawnTimer")
+castle_node = NodePath("../Castle")
 
 [node name="Position1" type="Marker2D" parent="Lvl1/EnemySpawner" groups=["Spawn"]]
 position = Vector2(-474, -242)
@@ -379,6 +381,9 @@ offset_left = -566.5
 offset_right = 566.5
 offset_bottom = 27.0
 grow_horizontal = 2
+
+[node name="Castle" parent="Lvl1" instance=ExtResource("21_e1j6l")]
+position = Vector2(844, -37)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 visible = false
