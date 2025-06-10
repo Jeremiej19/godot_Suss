@@ -2,6 +2,7 @@ extends StaticBody2D
 class_name Castle
 
 @export var max_hp: int = 500
+@export var game: Node2D
 var current_hp: int
 var is_dead: bool = false
 
@@ -42,8 +43,8 @@ func die() -> void:
 	
 	if collision_shape:
 		collision_shape.disabled = true
-	
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	game.castle_destroyed()
+	#get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 # Optional: Method to repair the castle
 func repair(amount: int) -> void:

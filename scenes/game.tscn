@@ -1,5 +1,6 @@
-[gd_scene load_steps=35 format=4 uid="uid://dgo5stsonobsx"]
+[gd_scene load_steps=38 format=4 uid="uid://dgo5stsonobsx"]
 
+[ext_resource type="Script" uid="uid://cwmibr51p54jx" path="res://scripts/game.gd" id="1_bhx41"]
 [ext_resource type="Texture2D" uid="uid://drqlas7tgprmj" path="res://assets/custom/flipped.png" id="1_gee14"]
 [ext_resource type="PackedScene" uid="uid://dq3exp1yol0e5" path="res://scenes/player.tscn" id="1_uwrxv"]
 [ext_resource type="PackedScene" uid="uid://ptqyk5nh3f15" path="res://scenes/enemy.tscn" id="2_yqjtg"]
@@ -23,7 +24,9 @@
 [ext_resource type="Script" uid="uid://dpp2fj2448pou" path="res://scripts/wall.gd" id="20_5newe"]
 [ext_resource type="Script" uid="uid://ryj5h2qh3sux" path="res://scripts/spawn_timer.gd" id="20_37s47"]
 [ext_resource type="PackedScene" uid="uid://cgbgbwi7d1tmf" path="res://scenes/castle.tscn" id="21_e1j6l"]
+[ext_resource type="Script" uid="uid://bs0slbknet0g0" path="res://scripts/canvas_layer.gd" id="22_qnb83"]
 [ext_resource type="PackedScene" uid="uid://hfdlkwdmruyn" path="res://scenes/gate_segment.tscn" id="23_bt5mj"]
+[ext_resource type="PackedScene" uid="uid://ewj3unw7y8i3" path="res://scenes/EndingScreen.tscn" id="25_pl11u"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vtaks"]
 texture = ExtResource("1_gee14")
@@ -282,7 +285,9 @@ sources/1 = SubResource("TileSetAtlasSource_ca42v")
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_0tnpc"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" node_paths=PackedStringArray("ending_screen")]
+script = ExtResource("1_bhx41")
+ending_screen = NodePath("EndingScreen")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(33, 51)
@@ -299,11 +304,12 @@ position = Vector2(-165, 39)
 script = ExtResource("7_ca42v")
 metadata/_custom_type_script = "uid://2jpt7epkx1jj"
 
-[node name="Player" parent="Lvl1" instance=ExtResource("1_uwrxv")]
+[node name="Player" parent="Lvl1" node_paths=PackedStringArray("game") instance=ExtResource("1_uwrxv")]
 position = Vector2(487, 30)
 slide_on_ceiling = false
 floor_stop_on_slope = false
 floor_block_on_wall = false
+game = NodePath("../..")
 
 [node name="Backpack" parent="Lvl1/Player" instance=ExtResource("6_vtaks")]
 script = ExtResource("7_kvpfn")
@@ -365,12 +371,13 @@ script = ExtResource("17_ssvqc")
 metadata/_custom_type_script = "uid://cffmbry1embpy"
 
 [node name="WaveTimer" type="Timer" parent="Lvl1"]
-wait_time = 5.0
+wait_time = 30.0
 one_shot = true
 autostart = true
 script = ExtResource("20_37s47")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="Lvl1"]
+script = ExtResource("22_qnb83")
 
 [node name="ProgressBar" type="ProgressBar" parent="Lvl1/CanvasLayer"]
 layout_direction = 1
@@ -382,8 +389,9 @@ offset_right = 566.5
 offset_bottom = 27.0
 grow_horizontal = 2
 
-[node name="Castle" parent="Lvl1" instance=ExtResource("21_e1j6l")]
+[node name="Castle" parent="Lvl1" node_paths=PackedStringArray("game") instance=ExtResource("21_e1j6l")]
 position = Vector2(844, -37)
+game = NodePath("../..")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 visible = false
@@ -438,6 +446,10 @@ position = Vector2(130, 19)
 
 [node name="GateSegment2" parent="Wall" instance=ExtResource("23_bt5mj")]
 position = Vector2(130, -45)
+
+[node name="EndingScreen" parent="." node_paths=PackedStringArray("progress_bar_layer") instance=ExtResource("25_pl11u")]
+process_mode = 2
+progress_bar_layer = NodePath("../Lvl1/CanvasLayer")
 
 [connection signal="move" from="Lvl1/Player" to="Lvl1/Player/WallPlacer" method="_on_player_move"]
 [connection signal="timeout" from="Lvl1/WaveTimer" to="Lvl1/EnemySpawner" method="_on_spawn_timer_timeout"]

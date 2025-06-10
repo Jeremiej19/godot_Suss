@@ -2,7 +2,7 @@ class_name Warrior
 extends CharacterBody2D
 
 const SPEED = 350.0
-const LOG_SPEED_MODIFIER = 0.6
+const LOG_SPEED_MODIFIER = 0.9
 const JUMP_VELOCITY = -400.0
 const DECAY = 0.1
 const push_force = 80
@@ -15,7 +15,8 @@ var nerbyLogs = []
 var active_player = true
 var is_dead: bool = false
 
-@export var max_hp: int = 20
+@export var max_hp: int = 60
+@export var game: Node2D
 var current_hp: int
 
 var crosshair_texture = load("res://assets/cursors/crosshair.png")
@@ -137,8 +138,11 @@ func die() -> void:
 	if is_dead:
 		return
 	is_dead = true
-	queue_free()
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	
+	game.player_died()
+		
+	#queue_free()
+	#get_tree().change_scene_to_file("res://scenes/game.tscn")
 
 func calculate_speed():
 	var tree_count = backpack.get_tree_count()
