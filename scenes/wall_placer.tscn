@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://0w5ljwu6tp2i"]
+
+[ext_resource type="Script" uid="uid://ci36q8knbns85" path="res://scripts/wall_placer.gd" id="1_vhie1"]
+[ext_resource type="PackedScene" uid="uid://b1swjjo2mayto" path="res://scenes/wall_segment_ghost.tscn" id="2_h8lfy"]
+
+[node name="WallPlacer" type="Node2D"]
+script = ExtResource("1_vhie1")
+
+[node name="WallSegmentGhost" parent="." instance=ExtResource("2_h8lfy")]

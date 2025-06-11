@@ -1,0 +1,163 @@
+[gd_scene load_steps=17 format=3 uid="uid://c80wmllikwo3b"]
+
+[ext_resource type="Script" uid="uid://dvwuj3u1c5mjb" path="res://scripts/tower.gd" id="1_ktxwe"]
+[ext_resource type="Texture2D" uid="uid://dhsqkpq2rn02g" path="res://assets/Tiny Swords (Update 010)/Factions/Goblins/Buildings/Wood_Tower/Wood_Tower_Blue.png" id="2_qrbg1"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rysoc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssvqc"]
+atlas = ExtResource("2_qrbg1")
+region = Rect2(0, 0, 256, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_264po"]
+atlas = ExtResource("2_qrbg1")
+region = Rect2(256, 0, 256, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1kice"]
+atlas = ExtResource("2_qrbg1")
+region = Rect2(512, 0, 256, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5newe"]
+atlas = ExtResource("2_qrbg1")
+region = Rect2(768, 0, 256, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_37s47"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ssvqc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_264po")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1kice")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5newe")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_e1j6l"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_bt5mj"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [&"idle"]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pl11u"]
+_data = {
+&"RESET": SubResource("Animation_e1j6l"),
+&"idle": SubResource("Animation_bt5mj")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ca42v"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_rysoc"]
+nodes/Animation/node = SubResource("AnimationNodeAnimation_ca42v")
+nodes/Animation/position = Vector2(180, 100)
+nodes/output/position = Vector2(420, 120)
+node_connections = [&"output", 0, &"Animation"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ssvqc"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_sww3w"]
+states/Idle/node = SubResource("AnimationNodeBlendTree_rysoc")
+states/Idle/position = Vector2(472, 100)
+states/Start/position = Vector2(246, 100)
+transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_ssvqc")]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ca42v"]
+radius = 146.342
+
+[node name="Tower" type="StaticBody2D"]
+z_index = 2
+collision_layer = 8
+collision_mask = 8
+physics_material_override = SubResource("PhysicsMaterial_rysoc")
+script = ExtResource("1_ktxwe")
+metadata/_custom_type_script = "uid://dvwuj3u1c5mjb"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(-473, 256)
+polygon = PackedVector2Array(428, -184, 447, -184, 518, -184, 517, -265, 427, -265)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_37s47")
+animation = &"idle"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_pl11u")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_sww3w")
+anim_player = NodePath("../AnimationPlayer")
+
+[node name="TowerEnterRange" type="Area2D" parent="." groups=["TowerEnterRange"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TowerEnterRange"]
+shape = SubResource("CircleShape2D_ca42v")
+
+[connection signal="body_entered" from="TowerEnterRange" to="." method="_on_tower_enter_range_body_entered"]
+[connection signal="body_exited" from="TowerEnterRange" to="." method="_on_tower_enter_range_body_exited"]

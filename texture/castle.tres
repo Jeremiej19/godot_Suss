@@ -1,0 +1,6 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://pia8ikalecd7"]
+
+[ext_resource type="Texture2D" uid="uid://dvmn61js0ljk3" path="res://assets/Tiny Swords (Update 010)/Factions/Knights/Buildings/Castle/Castle_Blue.png" id="1_vaav7"]
+
+[resource]
+atlas = ExtResource("1_vaav7")

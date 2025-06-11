@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://xmmtjhl8xg8b"]
+
+[ext_resource type="Script" uid="uid://cwe8gphh8r26c" path="res://scripts/tree_alive.gd" id="1_16vh3"]
+[ext_resource type="Texture2D" uid="uid://btq4aqbccnvxr" path="res://assets/trees/Surplus Trees.png" id="2_hxi6y"]
+[ext_resource type="Texture2D" uid="uid://cu6fxqsm5yqks" path="res://texture/particles.tres" id="3_0kumu"]
+
+[node name="TreeAlive" type="Node2D" groups=["TreeAlive"]]
+script = ExtResource("1_16vh3")
+metadata/_custom_type_script = "uid://cwe8gphh8r26c"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 2
+scale = Vector2(2, 2)
+texture = ExtResource("2_hxi6y")
+region_enabled = true
+region_rect = Rect2(0, 0, 75, 150)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(5, 133, 2, 120, 1, 106, 1, 93, 1, 77, 10, 77, 10, 88, 13, 105, 15, 121, 20, 138, 10, 138)
+
+[node name="Area2D" type="Area2D" parent="." groups=["TreeAliveHitbox"]]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+polygon = PackedVector2Array(2, 139, 0, 76, 12, 76, 20, 139)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+texture = ExtResource("3_0kumu")
+lifetime = 0.52
+one_shot = true
+emission_shape = 1
+emission_sphere_radius = 89.67
+initial_velocity_min = 39.22
+initial_velocity_max = 39.22
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

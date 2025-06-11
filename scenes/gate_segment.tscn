@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://hfdlkwdmruyn"]
+
+[ext_resource type="Script" uid="uid://bvd8vpxg0rvyu" path="res://scripts/gate_segment.gd" id="1_kewya"]
+[ext_resource type="Texture2D" uid="uid://d1f2mavtr5i1h" path="res://assets/custom/flipped_gate.png" id="2_w84q5"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kewya"]
+size = Vector2(64, 52)
+
+[node name="GateSegment" type="StaticBody2D" groups=["WallSegment"]]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_kewya")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_w84q5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_kewya")
